@@ -1,5 +1,6 @@
 package imageData;
 
+import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class ImageBuffer implements Image<Integer> {
@@ -28,5 +29,11 @@ public class ImageBuffer implements Image<Integer> {
     @Override
     public Integer getValue(int x, int y) {
         return img.getRGB(x, y);
+    }
+
+    public void clear(Color color){
+        Graphics g = img.getGraphics();
+        g.setColor(color);
+        g.fillRect(0,0,img.getWidth(),img.getHeight());
     }
 }
