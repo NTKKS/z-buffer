@@ -8,7 +8,7 @@ import model.Vertex;
 public class Arrow extends Solid {
 
     public Arrow() {
-
+        /*
         indexBuffer.add(0); //0,1,1,2,3
 
         vertexBuffer.add(new Vertex());
@@ -19,6 +19,6 @@ public class Arrow extends Solid {
 
         partBuffer.add(new Part(Topology.Lines,1,0));
         partBuffer.add(new Part(Topology.Triangles,1,2));
-
+        */
     }
 }

@@ -66,7 +66,7 @@ public class Renderer {
             a = c;
             c = t;
         }
-
+        /*
         if (a.getPosition().getZ() < 0) {
             return;
         }
@@ -83,12 +83,10 @@ public class Renderer {
         }
 
         rt.rasterize(a,b,c);
+    */
     }
-
-
-}
 
     private void RenderPoint(Vertex a) {
-
     }
 }
+
