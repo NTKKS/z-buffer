@@ -10,7 +10,8 @@ public class Renderer {
 
     RasterizerTriangle rt;
 
-    public Renderer(Solid solid) {
+    public Renderer(RasterizerTriangle rt) {
+
 
         for (Part part : solid.getPartBuffer()
         ) {

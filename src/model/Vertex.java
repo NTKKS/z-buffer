@@ -23,6 +23,10 @@ public class Vertex {
         this.z = z;
     }
 
+    public Vertex dehomog(){
+        this.mul(1/position.getW());
+    }
+
     public double getX() {
         return x;
     }

@@ -26,4 +26,12 @@ public class TestVisibility {
             imageBuffer.setValue(x,y,color);
         }
     }
+
+    public int getWidth() {
+        return imageBuffer.getWidth();
+    }
+
+    public int getHeight(){
+        return imageBuffer.getHeight();
+    }
 }
