@@ -42,10 +42,14 @@ public class App {
             }
         };
 
-        RasterizerTriangle //rt = new RasterizerTriangle(tv, shader);
+        RasterizerTriangle rt;// = new RasterizerTriangle(tv, shader);
 
         rt = new RasterizerTriangle(tv,
-                (vertex) -> {return new Col(0xff);});
+                (Vertex vertex) -> {return new Col(0xff);});
+
+        rt = new RasterizerTriangle(tv,
+                (vertex) -> {return vertex.getColor()
+                        .mul(1/vertex.getOne());});
 
         Renderer renderer = new Renderer(rt);
     }

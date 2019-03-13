@@ -1,6 +1,8 @@
 package model;
 
+import transforms.Col;
 import transforms.Point3D;
+import transforms.Vec3D;
 
 public class Vertex {
 
@@ -13,7 +15,9 @@ public class Vertex {
     private double z;
     private double w;
 
-    private int color;
+    private Col color;
+    private Vec3D normal;
+    private double one;
 
     private Point3D position;
 
@@ -59,11 +63,11 @@ public class Vertex {
         this.w = w;
     }
 
-    public int getColor() {
+    public Col getColor() {
         return color;
     }
 
-    public void setColor(int color) {
+    public void setColor(Col color) {
         this.color = color;
     }
 
@@ -71,10 +75,18 @@ public class Vertex {
         this.position = position;
     }
 
+    public Vec3D getNormal() {
+        return normal;
+    }
+
+    public double getOne() {
+        return one;
+    }
+
     public Vertex mul (double k){
         return new Vertex(position.mul(k));
     }
-    public Vertex add (Point3D k){
+    public Vertex add (Vertex k){
         return new Vertex(position.add(k));
     }
 }

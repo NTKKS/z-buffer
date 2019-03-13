@@ -22,15 +22,18 @@ public class RasterizerTriangle {
         c = c.dehomog();
 
         double xa = ((a.getPosition().getX()+1)/2*(tv.getWidth()-1));
-        double ya,xb,yb;
+        double ya,xb,xc,yb,yc;
 
         //usporada podle y tak ze ay<by<cy
         for (int y = Math.max(0,(int)(ya+1)); y < yb; y++) {
             double s1 = (y-ya)/(yb-ya);
+            double s2 = (y-ya)/(yc-ya);
             double x1 = xa*(1-s1)+xb*s2;
-            double z1,z2;
+            double x2 = xa*(1-s1)+xc*s2;
+            double z1,z2; // za(1+t1)+zb(t)
+            Vertex ab,ac;
 
-            for (int x = x1; x < x2; x++) {
+            for (double x = x1; x < x2; x++) {
                 double t = (x-x1)/(x2-x1);
                 double z =z1*(1-t)+z2*t;
                 Vertex abc;
