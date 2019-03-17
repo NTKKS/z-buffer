@@ -1,11 +1,12 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public  abstract class Solid {
-    protected List<Vertex> vertexBuffer;
-    protected List<Part> partBuffer;
-    protected List<Integer> indexBuffer;
+    protected List<Vertex> vertexBuffer = new ArrayList<>();
+    protected List<Part> partBuffer = new ArrayList<>();
+    protected List<Integer> indexBuffer = new ArrayList<>();
 
     public List<Vertex> getVertexBuffer() {
         return vertexBuffer;

@@ -7,7 +7,7 @@ import transforms.Vec3D;
 public class Vertex {
 
     public Point3D getPosition() {
-        return getPosition();
+        return position;
     }
 
     private double x;
@@ -27,8 +27,15 @@ public class Vertex {
         this.z = z;
     }
 
+    public Vertex(double x, double y, double z, Col color) {
+        this.x = x;
+        this.y = y;
+        this.z = z;
+        this.color=color;
+    }
+
     public Vertex dehomog(){
-        this.mul(1/position.getW());
+        return this.mul(1/position.getW());
     }
 
     public double getX() {
@@ -86,7 +93,7 @@ public class Vertex {
     public Vertex mul (double k){
         return new Vertex(position.mul(k));
     }
-    public Vertex add (Vertex k){
+    public Vertex add (Point3D k){
         return new Vertex(position.add(k));
     }
 }

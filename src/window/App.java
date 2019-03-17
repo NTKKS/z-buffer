@@ -1,5 +1,6 @@
 package window;
 
+import imageData.ImageBuffer;
 import imageData.TestVisibility;
 import model.Solid;
 import model.Vertex;
@@ -10,30 +11,36 @@ import render.Shader;
 import transforms.Col;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class App {
+public class App extends JFrame{
 
     private JFrame frame;
     private JPanel panel;
     private BufferedImage img;
+    private ImageBuffer imageBuffer;
 
     public App(int width, int height) {
 
-        frame = new JFrame();
-        frame.setTitle("Buffer");
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.setLocationRelativeTo(null);
-        frame.setSize(width,height);
+        setTitle("Buffer");
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setSize(width,height);
+        setLocationRelativeTo(null);
+        setBackground(Color.BLACK);
 
-        img = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+        setVisible(true);
 
-        frame.setVisible(true);
+        start(width,height);
 
     }
 
-    public void start(){
+    public void start(int width, int height){
+
+        img = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+        imageBuffer = new ImageBuffer(img);
         Solid s = new Arrow();
+
         TestVisibility tv = new TestVisibility(img);
         Shader shader = new Shader() {
             @Override
@@ -51,11 +58,16 @@ public class App {
                 (vertex) -> {return vertex.getColor()
                         .mul(1/vertex.getOne());});
 
-        Renderer renderer = new Renderer(rt);
+        Renderer renderer = new Renderer(rt,s,img);
+
+    }
+
+    public void paint(Graphics g){
+        g.drawImage(img,0,0,null);
     }
 
     public static void main(String[] args) {
-        App window = new App(800,600);
+        App app = new App(800,600);
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
