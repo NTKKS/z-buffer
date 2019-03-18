@@ -23,7 +23,7 @@ public class ImageBuffer implements Image<Integer> {
 
     @Override
     public void setValue(int x, int y, Integer value) {
-        img.setRGB(x, y, value.intValue());
+        img.setRGB(x, y, value);
     }
 
     @Override

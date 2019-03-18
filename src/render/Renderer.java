@@ -6,6 +6,7 @@ import imageData.TestVisibility;
 import model.Part;
 import model.Solid;
 import model.Vertex;
+import transforms.*;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -20,10 +21,16 @@ public class Renderer {
     TestVisibility tv;
     Graphics g;
 
+    private Mat4 model;
+    private Mat4 view;
+    private Mat4 projection;
+
     public Renderer(RasterizerTriangle rt, Solid solid, BufferedImage img) {
 
+        init(img);
+
         imageBuffer = new ImageBuffer(img);
-        depthBuffer = new DepthBuffer(800, 600);
+        depthBuffer = new DepthBuffer(img.getWidth(), img.getHeight());
         g = img.getGraphics();
 
         for (Part part : solid.getPartBuffer()
@@ -45,10 +52,11 @@ public class Renderer {
                         int bi = ai + 1;
                         Vertex a = solid.getVertexBuffer().get(ai);
                         Vertex b = solid.getVertexBuffer().get(bi);
-                        RenderLine(a, b);
+                        RenderLine(a, b, a.getColor());
                     }
                     break;
                 case Triangles:
+                    /*
                     List<Vertex> triangle;
                     for (int i = 0; i < part.getCount(); i++) {
                         System.out.println("Got Triangle");
@@ -56,14 +64,82 @@ public class Renderer {
                         Vertex b = solid.getVertexBuffer().get(solid.getIndexBuffer().get(3 * i + part.getStart() + 1));
                         Vertex c = solid.getVertexBuffer().get(solid.getIndexBuffer().get(3 * i + part.getStart() + 2));
                         RenderTriangle(a, b, c);
-                    }
+                    }*/
                     break;
             }
         }
     }
 
-    private void RenderLine(Vertex a, Vertex b) {
+    public void init(BufferedImage img){
+
+        model = new Mat4Identity();
+
+        Vec3D e = new Vec3D(0, -5, 4);
+        Vec3D v = new Vec3D(0, 5, -4);
+        Vec3D u = new Vec3D(0, 0, 1);
+
+        view = new Mat4ViewRH(e, v, u);
+
+        projection = new Mat4PerspRH(
+                Math.PI / 4,
+                img.getHeight()/ (double) img.getWidth(),
+                0.1,
+                200);
+    }
+
+    private Vec3D transformToWindow(Vec3D v){
+        return v.mul(new Vec3D(1,-1,1)) // Y jde nahoru, chceme dolu
+                .add(new Vec3D(1, 1, 0)) // (0,0) je uprostřed, chceme v rohu
+                // máme <0, 2> -> vynásobíme polovinou velikosti plátna
+                .mul(new Vec3D(imageBuffer.getWidth()/ 2f, imageBuffer.getHeight()/ 2f, 1));
+    }
+
+    private void RenderLine(Vertex a, Vertex b, int color) {
         System.out.println("_Render Line");
+
+        int x1 = (int) a.getPosition().getX();
+        int y1 = (int) a.getPosition().getY();
+        int x2 = (int) b.getPosition().getX();
+        int y2 = (int) b.getPosition().getY();
+
+        float x, y, g, h;
+        int dx = x2 - x1;
+        int dy = y2 - y1;
+        x = x1;
+        y = y1;
+        float k = dy / (float) dx;
+
+        if (Math.abs(k) < 1) {
+            if (dx > 0) {
+                g = 1;
+                h = k;
+            } else {
+                g = -1;
+                h = -k;
+            }
+        } else {
+            if (dy > 0) {
+                g = 1 / k;
+                h = 1;
+            } else {
+                g = -(1 / k);
+                h = -1;
+            }
+        }
+
+        int length;
+        if (Math.abs(dx) > Math.abs(dy)) {
+            length = Math.abs(dx);
+        } else {
+            length = Math.abs(dy);
+        }
+
+        for (int i = 0; i <= length; i++) {
+            imageBuffer.setValue(Math.round(x),Math.round(y),color);
+            x = x + g;
+            y = y + h;
+        }
+
     }
 
     private void RenderTriangle(Vertex a, Vertex b, Vertex c) {
@@ -81,6 +157,7 @@ public class Renderer {
         */
         //orez pro z==0
 
+/*
         for (int y = Math.max(0, (int) (ya + 1)); y < yb; y++) { // mantra
             double s1 = (y - ya) / (yb - ya); // t
             double s2 = (y - ya) / (yc - ya); // t
@@ -143,14 +220,14 @@ public class Renderer {
         }
 
         rt.rasterize(a, b, c);
-
+*/
     }
 
     private void RenderPoint(Vertex a) {
         System.out.println("draw pixel");
         int x = (int) a.getX();
         int y = (int) a.getY();
-        imageBuffer.setValue(x, y, a.getColor().getRGB());
+        imageBuffer.setValue(x, y, a.getColor());
 
     }
 }

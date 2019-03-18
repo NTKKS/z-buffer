@@ -54,10 +54,11 @@ public class App extends JFrame{
         rt = new RasterizerTriangle(tv,
                 (Vertex vertex) -> {return new Col(0xff);});
 
+        /*
         rt = new RasterizerTriangle(tv,
                 (vertex) -> {return vertex.getColor()
                         .mul(1/vertex.getOne());});
-
+        */
         Renderer renderer = new Renderer(rt,s,img);
 
     }

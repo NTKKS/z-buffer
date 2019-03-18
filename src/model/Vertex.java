@@ -1,8 +1,6 @@
 package model;
 
-import transforms.Col;
-import transforms.Point3D;
-import transforms.Vec3D;
+import transforms.*;
 
 public class Vertex {
 
@@ -15,23 +13,18 @@ public class Vertex {
     private double z;
     private double w;
 
-    private Col color;
+    private Integer color;
     private Vec3D normal;
     private double one;
 
     private Point3D position;
 
-    public Vertex(double x, double y, double z) {
-        this.x = x;
-        this.y = y;
-        this.z = z;
-    }
-
-    public Vertex(double x, double y, double z, Col color) {
+    public Vertex(double x, double y, double z, Integer color) {
         this.x = x;
         this.y = y;
         this.z = z;
         this.color=color;
+        this.position = new Point3D(x,y,z);
     }
 
     public Vertex dehomog(){
@@ -70,11 +63,11 @@ public class Vertex {
         this.w = w;
     }
 
-    public Col getColor() {
+    public Integer getColor() {
         return color;
     }
 
-    public void setColor(Col color) {
+    public void setColor(Integer color) {
         this.color = color;
     }
 
@@ -96,4 +89,17 @@ public class Vertex {
     public Vertex add (Point3D k){
         return new Vertex(position.add(k));
     }
+
+    public boolean isPresent() {
+        return position.dehomog().isPresent();
+    }
+
+    public Vec3D get() {
+        return position.dehomog().get();
+    }
+
+    public Vertex mul(Mat4 mat) {
+        return new Vertex(position.mul(mat));
+    }
+
 }

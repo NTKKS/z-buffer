@@ -20,10 +20,10 @@ public class Arrow extends Solid {
 
         //indexBuffer.add(0); //test pixel
 
-        vertexBuffer.add(new Vertex(10,30,0));
-        vertexBuffer.add(new Vertex(50,30,0));
-        vertexBuffer.add(new Vertex(40,20,0));
-        vertexBuffer.add(new Vertex(40,40,0));
+        vertexBuffer.add(new Vertex(10,30,0, 0xff00000));
+        vertexBuffer.add(new Vertex(50,30,0, 0xff00000));
+        vertexBuffer.add(new Vertex(40,20,0, 0xff00000));
+        vertexBuffer.add(new Vertex(40,40,0, 0xff00000));
 
         //test pixel
         //vertexBuffer.add(new Vertex(100,100,0, new Col(0,255,0)));
