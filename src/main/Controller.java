@@ -15,8 +15,8 @@ public class Controller {
 
     private Raster raster;
     private Renderer3D renderer;
-    private Solid axis,arrow,cube,bicubic;
-    private JCheckBox boxWireFrame, boxBicubic, boxCube, boxArrow;
+    private Solid axis,arrow,cube,pyramid;
+    private JCheckBox boxWireFrame, boxPyramid, boxCube, boxArrow;
     private JRadioButton rPersp, rOrtho;
     private Camera camera;
     private int mx, my;
@@ -40,9 +40,10 @@ public class Controller {
         axis = new Axis();
         arrow = new Arrow();
         cube = new Cube();
-        //bicubic = new Bicubic();
+        pyramid = new Pyramid();
 
-        renderer.add(arrow);
+        renderer.add(pyramid);
+        renderer.add(cube);
         renderer.add(axis);
         renderer.draw();
 
@@ -61,6 +62,8 @@ public class Controller {
         boxCube.setBackground(Color.LIGHT_GRAY);
         boxArrow = new JCheckBox("Arrow");
         boxArrow.setBackground(Color.LIGHT_GRAY);
+        boxPyramid = new JCheckBox("Pyramid");
+        boxPyramid.setBackground(Color.LIGHT_GRAY);
 
 
         ButtonGroup group = new ButtonGroup();
@@ -72,16 +75,16 @@ public class Controller {
         rOrtho.setFocusable(false);
         boxWireFrame.setFocusable(false);
         boxCube.setFocusable(false);
-        boxCube.setSelected(false);
-        //boxBicubic.setFocusable(false);
-        //boxBicubic.setSelected(false);
+        boxCube.setSelected(true);
+        boxPyramid.setFocusable(false);
+        boxPyramid.setSelected(true);
         boxArrow.setFocusable(false);
-        boxArrow.setSelected(true);
+        boxArrow.setSelected(false);
 
         panel.add(rPersp);
         panel.add(rOrtho);
         panel.add(boxWireFrame);
-        //panel.add(boxBicubic);
+        panel.add(boxPyramid);
         panel.add(boxCube);
         panel.add(boxArrow);
 
@@ -90,7 +93,7 @@ public class Controller {
         boxWireFrame.addActionListener(e -> setWireFrame());
 
         boxArrow.addActionListener(e -> addArrow());
-        //boxBicubic.addActionListener(e -> addBicubic());
+        boxPyramid.addActionListener(e -> addPyramid());
         boxCube.addActionListener(e -> addCube());
 
     }
@@ -106,9 +109,9 @@ public class Controller {
         renderer.draw();
     }
 
-    private void addBicubic() {
-        if (boxBicubic.isSelected()) renderer.add(bicubic);
-        else renderer.remove(bicubic);
+    private void addPyramid() {
+        if (boxPyramid.isSelected()) renderer.add(pyramid);
+        else renderer.remove(pyramid);
         renderer.draw();
     }
 
