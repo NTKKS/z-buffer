@@ -25,6 +25,7 @@ public class Raster extends JPanel {
         g.drawImage(bi, 0, 0, null);
     }
 
+    //Loop pro prekreslovani
     private void setLoop() {
         new Timer().schedule(new TimerTask() {
             @Override

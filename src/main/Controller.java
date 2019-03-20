@@ -10,18 +10,13 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.TimerTask;
 
 public class Controller {
 
     private Raster raster;
     private Renderer3D renderer;
-    private Solid axis,arrow,cube;
-    private JCheckBox boxRotX, boxRotY, boxRotZ, boxWireFrame, boxBicubic, boxCube, boxArrow;
-    private boolean isLoopActivated = false;
-    private int start = 0;
+    private Solid axis,arrow,cube,bicubic;
+    private JCheckBox boxWireFrame, boxBicubic, boxCube, boxArrow;
     private JRadioButton rPersp, rOrtho;
     private Camera camera;
     private int mx, my;
@@ -45,13 +40,10 @@ public class Controller {
         axis = new Axis();
         arrow = new Arrow();
         cube = new Cube();
+        //bicubic = new Bicubic();
 
         renderer.add(arrow);
         renderer.add(axis);
-        /*
-        bicubic = new Bicubics();
-        renderer.add(bicubic);
-        */
         renderer.draw();
 
 
@@ -59,25 +51,17 @@ public class Controller {
 
     private void buttons(JPanel panel) {
         rPersp = new JRadioButton("Persp");
+        rPersp.setBackground(Color.LIGHT_GRAY);
         rOrtho = new JRadioButton("Ortho");
-        boxRotX = new JCheckBox("Rot X");
-        boxRotY = new JCheckBox("Rot Y");
-        boxRotZ = new JCheckBox("Rot Z");
+        rOrtho.setBackground(Color.LIGHT_GRAY);
         boxWireFrame = new JCheckBox("WireFrame");
-        boxBicubic = new JCheckBox("Bic");
+        boxWireFrame.setBackground(Color.LIGHT_GRAY);
+        //boxBicubic = new JCheckBox("Bicubic");
         boxCube = new JCheckBox("Cube");
+        boxCube.setBackground(Color.LIGHT_GRAY);
         boxArrow = new JCheckBox("Arrow");
+        boxArrow.setBackground(Color.LIGHT_GRAY);
 
-
-        rPersp.setToolTipText("Perspektivní projekce");
-        rOrtho.setToolTipText("Orthogonální projekce");
-        boxRotX.setToolTipText("Rotovat kolem osy X");
-        boxRotY.setToolTipText("Rotovat kolem osy Y");
-        boxRotZ.setToolTipText("Rotovat kolem osy Z");
-        boxWireFrame.setToolTipText("Zapnout drátěný model");
-        boxBicubic.setToolTipText("Bikubická plocha");
-        boxCube.setToolTipText("Krychle");
-        boxArrow.setToolTipText("Šipka");
 
         ButtonGroup group = new ButtonGroup();
         group.add(rPersp);
@@ -86,24 +70,18 @@ public class Controller {
         rPersp.setSelected(true);
         rPersp.setFocusable(false);
         rOrtho.setFocusable(false);
-        boxRotX.setFocusable(false);
-        boxRotY.setFocusable(false);
-        boxRotZ.setFocusable(false);
         boxWireFrame.setFocusable(false);
         boxCube.setFocusable(false);
         boxCube.setSelected(false);
-        boxBicubic.setFocusable(false);
-        boxBicubic.setSelected(false);
+        //boxBicubic.setFocusable(false);
+        //boxBicubic.setSelected(false);
         boxArrow.setFocusable(false);
         boxArrow.setSelected(true);
 
         panel.add(rPersp);
         panel.add(rOrtho);
         panel.add(boxWireFrame);
-        panel.add(boxRotX);
-        panel.add(boxRotY);
-        panel.add(boxRotZ);
-        panel.add(boxBicubic);
+        //panel.add(boxBicubic);
         panel.add(boxCube);
         panel.add(boxArrow);
 
@@ -117,17 +95,6 @@ public class Controller {
 
     }
 
-    private void loop() {
-        new java.util.Timer().schedule(new TimerTask() {
-            @Override
-            public void run() {
-                if (isLoopActivated) {
-                    rotate();
-                }
-            }
-        }, 1, 100);
-    }
-
     private void reset() {
         camera = new Camera(new Vec3D(0, -5, 4), Math.toRadians(90), Math.toRadians(-40), 1, true);
         renderer.setView(camera.getViewMatrix());
@@ -138,42 +105,20 @@ public class Controller {
         else renderer.remove(cube);
         renderer.draw();
     }
-    /*
+
     private void addBicubic() {
         if (boxBicubic.isSelected()) renderer.add(bicubic);
         else renderer.remove(bicubic);
         renderer.draw();
     }
-    */
+
     private void addArrow() {
         if (boxArrow.isSelected()) renderer.add(arrow);
         else renderer.remove(arrow);
         renderer.draw();
     }
 
-    private void rotate() {
-        if (boxRotX.isSelected()) rotateObject(0);
-        if (boxRotY.isSelected()) rotateObject(1);
-        if (boxRotZ.isSelected()) rotateObject(2);
-    }
-
-
-    private void rotateObject(int index) {
-        for (Solid solid : renderer.getSolids()) {
-            if (!solid.isAxis()) {
-                List<Vertex> vertices = new ArrayList<>();
-                for (int i = 0; i < solid.getVertices().size(); i++) {
-                    Vertex ver = solid.getVertices().get(i);
-
-                    if (index == 0) vertices.add(new Vertex(ver.vertex.mul(new Mat4RotX(Math.PI/15)),ver.color));
-                    if (index == 1) vertices.add(new Vertex(ver.vertex.mul(new Mat4RotY(Math.PI/15)),ver.color));
-                    if (index == 2) vertices.add(new Vertex(ver.vertex.mul(new Mat4RotZ(Math.PI/15)),ver.color));
-                }
-                solid.setVertices(vertices);
-            }
-        }
-        renderer.draw();
-    }
+    //pohyb
 
     private void down() {
         camera = camera.up(0.5);
@@ -245,9 +190,10 @@ public class Controller {
         raster.addMouseMotionListener(new MouseAdapter() {
             @Override
             public void mouseDragged(MouseEvent e) {
+                //rozhlizeni se (pohled kamery)
                 if (SwingUtilities.isLeftMouseButton(e)) {
-                    double diffX = (mx - e.getX()) / -500.0;
-                    double diffY = (my - e.getY()) / -500.0;
+                    double diffX = (mx - e.getX()) / 500.0;
+                    double diffY = (my - e.getY()) / 500.0;
                     double azimut = camera.getAzimuth() + diffX;
                     double zenith = camera.getZenith() + diffY;
                     if (zenith > Math.PI / -2 && zenith < 0 && azimut > 0.3 && azimut < 3) {
@@ -255,7 +201,7 @@ public class Controller {
                         camera = camera.withZenith(zenith);
                         renderer.setView(camera.getViewMatrix());
                     }
-
+                //rotace modelu
                 } else if (SwingUtilities.isRightMouseButton(e)) {
                     double rotX = (mx - e.getX()) / -200.0;
                     double rotY = (my - e.getY()) / -200.0;
@@ -266,7 +212,7 @@ public class Controller {
                 my = e.getY();
             }
         });
-
+        //zoom
         raster.addMouseWheelListener(e -> {
             if (e.getUnitsToScroll() > 0)  zoom(1);
             else zoom(-1);
@@ -276,6 +222,7 @@ public class Controller {
             @Override
             public void keyPressed(KeyEvent e) {
                 switch (e.getKeyCode()) {
+                    //pohyb
                     case KeyEvent.VK_Q:
                         up();
                         break;
@@ -294,11 +241,9 @@ public class Controller {
                     case KeyEvent.VK_S:
                         backward();
                         break;
+                    //nastaveni rezimu zobrazeni
                     case KeyEvent.VK_R:
                         reset();
-                        break;
-                    case KeyEvent.VK_F:
-                        rotate();
                         break;
                     case KeyEvent.VK_P:
                         persp();
@@ -308,28 +253,13 @@ public class Controller {
                         orth();
                         rOrtho.setSelected(true);
                         break;
-                    case KeyEvent.VK_SPACE:
+                    case KeyEvent.VK_I:
                         setWireFrame();
                         boxWireFrame.setSelected(!boxWireFrame.isSelected());
-                        break;
-                    case KeyEvent.VK_ENTER:
-                        isLoopActivated = !isLoopActivated;
-                        if (isLoopActivated && start == 0) {
-                            loop();
-                            start++;
-                        }
                         break;
                 }
             }
         });
 
-    }
-
-    public boolean isLoopActivated() {
-        return isLoopActivated;
-    }
-
-    public void setLoopActivated(boolean loopActivated) {
-        isLoopActivated = loopActivated;
     }
 }

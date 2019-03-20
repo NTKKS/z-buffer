@@ -1,7 +1,6 @@
 package main;
 
 import javax.swing.*;
-import java.awt.*;
 
 public class Window extends JFrame {
 
@@ -19,6 +18,18 @@ public class Window extends JFrame {
         raster.grabFocus();
         add(raster);
 
+        JFrame descr = new JFrame("Description:");
+        JOptionPane.showMessageDialog(descr,
+                "W,A,S,D - movement in XY axis\n" +
+                "Q,E - movement in Z axis\n" +
+                "Scrolling - zoom\n" +
+                "LMB - camera rotation\n" +
+                "RMB - model rotation\n" +
+                "R - reset view\n" +
+                "O/P - Ortho/Persp\n" +
+                "I - wireframe mode\n\n" +
+                "Jan Janás, PGRF2, Březen 2019",
+                "Description:",1);
     }
 
     public Raster getRaster() { return raster; }

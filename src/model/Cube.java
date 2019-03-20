@@ -18,14 +18,14 @@ public class Cube extends Solid {
         Point3D p6 = new Point3D(0.5,-0.5,1);
         Point3D p7 = new Point3D(-0.5,-0.5,1);
 
-        vertices.add(new Vertex(p0, Color.RED));
+        vertices.add(new Vertex(p0, Color.ORANGE));
         vertices.add(new Vertex(p1, Color.GREEN));
         vertices.add(new Vertex(p2, Color.BLUE));
-        vertices.add(new Vertex(p3, Color.WHITE));
-        vertices.add(new Vertex(p4, Color.RED));
+        vertices.add(new Vertex(p3, Color.BLACK));
+        vertices.add(new Vertex(p4, Color.ORANGE));
         vertices.add(new Vertex(p5, Color.GREEN));
         vertices.add(new Vertex(p6, Color.BLUE));
-        vertices.add(new Vertex(p7, Color.WHITE));
+        vertices.add(new Vertex(p7, Color.BLACK));
 
         addTriangle(0,1,3);
         addTriangle(1,2,3);
