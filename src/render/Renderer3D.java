@@ -143,7 +143,7 @@ public class Renderer3D {
         if (ver1.z < ver2.z) {
             Vertex q = ver1; ver1 = ver2; ver2 = q;
         }
-        //rychly orez
+        //rychly orez;
         if (ver1.z < 0) return;
         if (ver2.z < 0) {
             Vertex v12 = trim(ver1, ver2);

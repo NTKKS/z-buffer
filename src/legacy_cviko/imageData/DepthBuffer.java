@@ -1,4 +1,4 @@
-package imageData;
+package legacy_cviko.imageData;
 
 public class DepthBuffer implements Image<Float> {
 

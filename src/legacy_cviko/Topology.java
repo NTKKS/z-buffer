@@ -1,4 +1,4 @@
-package model;
+package legacy_cviko;
 
 public enum Topology {
     Points,

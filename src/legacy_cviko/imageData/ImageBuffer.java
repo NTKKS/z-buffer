@@ -1,4 +1,4 @@
-package imageData;
+package legacy_cviko.imageData;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

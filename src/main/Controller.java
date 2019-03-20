@@ -186,12 +186,12 @@ public class Controller {
     }
 
     private void right() {
-        camera = camera.left(0.5);
+        camera = camera.right(0.5);
         renderer.setView(camera.getViewMatrix());
     }
 
     private void left() {
-        camera = camera.right(0.5);
+        camera = camera.left(0.5);
         renderer.setView(camera.getViewMatrix());
     }
 
@@ -276,16 +276,16 @@ public class Controller {
             @Override
             public void keyPressed(KeyEvent e) {
                 switch (e.getKeyCode()) {
-                    case KeyEvent.VK_UP:
+                    case KeyEvent.VK_Q:
                         up();
                         break;
-                    case KeyEvent.VK_DOWN:
+                    case KeyEvent.VK_E:
                         down();
                         break;
-                    case KeyEvent.VK_RIGHT:
+                    case KeyEvent.VK_D:
                         right();
                         break;
-                    case KeyEvent.VK_LEFT:
+                    case KeyEvent.VK_A:
                         left();
                         break;
                     case KeyEvent.VK_W:
@@ -294,16 +294,10 @@ public class Controller {
                     case KeyEvent.VK_S:
                         backward();
                         break;
-                    case KeyEvent.VK_A:
-                        zoom(1);
-                        break;
-                    case KeyEvent.VK_D:
-                        zoom(-1);
-                        break;
                     case KeyEvent.VK_R:
                         reset();
                         break;
-                    case KeyEvent.VK_E:
+                    case KeyEvent.VK_F:
                         rotate();
                         break;
                     case KeyEvent.VK_P:

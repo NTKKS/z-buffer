@@ -1,4 +1,4 @@
-package imageData;
+package legacy_cviko.imageData;
 
 public interface Image<T> {
 
