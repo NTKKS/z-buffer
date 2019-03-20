@@ -3,32 +3,49 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
-public  abstract class Solid {
-    protected List<Vertex> vertexBuffer = new ArrayList<>();
-    protected List<Part> partBuffer = new ArrayList<>();
-    protected List<Integer> indexBuffer = new ArrayList<>();
+public abstract class Solid {
 
-    public List<Vertex> getVertexBuffer() {
-        return vertexBuffer;
+    public List<Integer> indices = new ArrayList<>();
+    public List<Vertex> vertices = new ArrayList<>();
+    private boolean triangle;
+    private boolean axis;
+    private boolean bicubic;
+    private int count;
+
+
+    public int getCount()
+    {
+        return count;
     }
 
-    public void setVertexBuffer(List<Vertex> vertexBuffer) {
-        this.vertexBuffer = vertexBuffer;
+    public boolean isAxis() { return axis; }
+
+    public boolean isBicubic() { return bicubic; }
+
+    public boolean isTriangle() { return triangle; }
+
+    public List<Vertex> getVertices() {
+        return vertices;
     }
 
-    public List<Part> getPartBuffer() {
-        return partBuffer;
+    public List<Integer> getIndices() { return indices; }
+
+    void setTriangle() { this.triangle = true; }
+
+    public void setAxis(boolean axis) {
+        this.axis = axis;
     }
 
-    public void setPartBuffer(List<Part> partBuffer) {
-        this.partBuffer = partBuffer;
+    void setLine() {
+        this.bicubic = true;
     }
 
-    public List<Integer> getIndexBuffer() {
-        return indexBuffer;
+    void setCount(int count) {
+        this.count = count;
     }
 
-    public void setIndexBuffer(List<Integer> indexBuffer) {
-        this.indexBuffer = indexBuffer;
+    public void setVertices(List<Vertex> vertices) {
+        this.vertices = vertices;
     }
+
 }
